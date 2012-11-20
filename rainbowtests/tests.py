@@ -5,6 +5,7 @@ import colors
 import django
 import unittest
 
+from django.test.simple import DjangoTestSuiteRunner
 from inspect import getfile
 from os.path import dirname
 
@@ -57,7 +58,7 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
             self.stream.writeln("\n".join(lines))
 
 
-class RainbowTestSuiteRunner(django.test.simple.DjangoTestSuiteRunner):
+class RainbowTestSuiteRunner(DjangoTestSuiteRunner):
     """Replacement Test Suite Runner for Django."""
     def run_suite(self, suite, **kwargs):
 
