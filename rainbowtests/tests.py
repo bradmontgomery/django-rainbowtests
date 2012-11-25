@@ -37,10 +37,15 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
             self.stream.flush()
 
     def printErrorList(self, flavour, errors):
-        """Print Error and Failure headers in Red"""
+        """Print colorful test output:
 
-        # To find the path where django is installed. We highlight our own
-        # files, but not Django's
+        * Error and Failure headers are in Red.
+        * The First/Last lines (Traceback heading and Exception) are Cyan.
+        # Non-Django lines are Yellow.
+
+        """
+
+        # Find the path where django is installed.
         django_path = dirname(getfile(django))
 
         for test, err in errors:
@@ -49,12 +54,31 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
             self.stream.writeln(colors.red(out))
             self.stream.writeln(colors.red(self.separator2))
             tb = "{0}".format(err)
-            lines = tb.split("\n")
-            i = 0
-            for line in lines:
-                if django_path not in lines:
-                    lines[i] = colors.yellow(line)
-                i += 1
+            lines = tb.strip().split("\n")
+
+            # Temporarily remove the first & last lines of the Traceback.
+            first_line = colors.cyan(lines.pop(0))  # Traceback header
+            last_line = colors.cyan(lines.pop(-1))  # The Exception
+
+            # The traceback is organized into pairs; a path and a line of code,
+            # and the pair looks something like this:
+            #
+            # >>> File "/path/to/module.py", line 123, in method_name
+            # >>>     some_line_of_code
+            #
+            # So, we'll group every two lines of the traceback, and highlight
+            # the pertinent parts
+
+            i = 0  # remember which line of the Traceback we're highlighting.
+            groups = zip(*[lines[x::2] for x in range(2)])
+            for path, line_of_code in groups:
+                if django_path not in path:
+                    lines[i] = colors.yellow(path)
+                    lines[i + 1] = colors.yellow(line_of_code)
+                i += 2
+
+            lines.insert(0, first_line)
+            lines.append(last_line)
             self.stream.writeln("\n".join(lines))
 
 
