@@ -7,16 +7,16 @@ output.
 How do I use this?
 ------------------
 
-Disclaimer: This isn't on pypi for a reason (it's probably not ready for
-prime-time).
+First install with::
 
-Install this app (put ``rainbowtests`` somewhere on your python path or 
-pip-install it with::
+    pip install django-rainbowtests
+
+Or grab the development version from github::
 
     pip install -e git+git://github.com/bradmontgomery/django-rainbowtests.git#egg=django-rainbowtests
 
 Then, add the following setting::
- 
+
     TEST_RUNNER = 'rainbowtests.RainbowTestSuiteRunner'
 
 Then run your tests!
