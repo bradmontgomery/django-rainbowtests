@@ -57,8 +57,11 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
             lines = tb.strip().split("\n")
 
             # Temporarily remove the first & last lines of the Traceback.
-            first_line = colors.cyan(lines.pop(0))  # Traceback header
-            last_line = colors.cyan(lines.pop(-1))  # The Exception
+            if len(lines) > 2:
+                first_line = colors.cyan(lines.pop(0))  # Traceback header
+                last_line = colors.cyan(lines.pop(-1))  # The Exception
+            else:
+                first_line, last_line = ('', '')
 
             # The traceback is organized into pairs; a path and a line of code,
             # and the pair looks something like this:
