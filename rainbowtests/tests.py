@@ -4,10 +4,13 @@
 import colors
 import django
 import unittest
+import random
 
 from django.test.simple import DjangoTestSuiteRunner
 from inspect import getfile
 from os.path import dirname
+
+from messages import happy_messages, sad_messages
 
 
 class RainbowTextTestResult(unittest.runner.TextTestResult):
@@ -94,11 +97,10 @@ class RainbowTestSuiteRunner(DjangoTestSuiteRunner):
         runner.resultclass = RainbowTextTestResult
         result = runner.run(suite)
 
-        line = "---------------------------"
         if result.wasSuccessful():
-            output = "\n\n{0}\nSuccess! *high-five*\n{1}\n\n".format(line, line)
+            output = random.choice(happy_messages)
             runner.stream.writeln(colors.green(output))
         else:
-            output = "\n\n{0}\nsigh :-(\n{1}\n\n".format(line, line)
+            output = random.choice(sad_messages)
             runner.stream.writeln(colors.red(output))
         return result
