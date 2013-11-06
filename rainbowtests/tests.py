@@ -96,7 +96,7 @@ class RainbowTestSuiteRunner(DjangoTestSuiteRunner):
 
         line = "---------------------------"
         if result.wasSuccessful():
-            output = "\n\n{0}\nSucces! *high-five*\n{1}\n\n".format(line, line)
+            output = "\n\n{0}\nSuccess! *high-five*\n{1}\n\n".format(line, line)
             runner.stream.writeln(colors.green(output))
         else:
             output = "\n\n{0}\nsigh :-(\n{1}\n\n".format(line, line)
