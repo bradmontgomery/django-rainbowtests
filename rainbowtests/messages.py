@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import colors
+import random
+
 happy_messages = []
 sad_messages = []
 
@@ -59,3 +62,11 @@ sad_messages.append(
 
 """
 )
+
+
+def random_happy():
+    return colors.green(random.choice(happy_messages))
+
+
+def random_sad():
+    return colors.red(random.choice(sad_messages))
