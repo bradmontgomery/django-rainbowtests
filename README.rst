@@ -17,7 +17,7 @@ Or grab the development version from github::
 
 Then, add the following setting::
 
-    TEST_RUNNER = 'rainbowtests.RainbowTestSuiteRunner'
+    TEST_RUNNER = 'rainbowtests.test.simple.RainbowTestSuiteRunner'
 
 Then run your tests!
 
