@@ -3,8 +3,8 @@
 
 import unittest
 from django.test.runner import DiscoverRunner
-from rainbowtests import colors
 from rainbowtests.test.core import RainbowTextTestResult
+from rainbowtests import messages
 
 
 class RainbowDiscoverRunner(DiscoverRunner):
@@ -21,11 +21,8 @@ class RainbowDiscoverRunner(DiscoverRunner):
         runner.resultclass = RainbowTextTestResult
         result = runner.run(suite)
 
-        line = "---------------------------"
         if result.wasSuccessful():
-            output = "\n\n{0}\nSucces! *high-five*\n{1}\n\n".format(line, line)
-            runner.stream.writeln(colors.green(output))
+            runner.stream.writeln(messages.random_happy())
         else:
-            output = "\n\n{0}\nsigh :-(\n{1}\n\n".format(line, line)
-            runner.stream.writeln(colors.red(output))
+            runner.stream.writeln(messages.random_sad())
         return result
