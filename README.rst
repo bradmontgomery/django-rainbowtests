@@ -27,6 +27,12 @@ If you want the *old-style* behavior, use::
 Then run your tests!
 
 
+Python Compatibility
+--------------------
+
+This code *should* work with Python 2.7 and Python 3.4. If you find otherwise,
+please submit a bug report.
+
 License
 -------
 
