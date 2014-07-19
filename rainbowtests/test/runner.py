@@ -11,10 +11,11 @@ class RainbowDiscoverRunner(DiscoverRunner):
     """Replacement for Django's DiscoverRunner"""
 
     def run_suite(self, suite, **kwargs):
-        # NOTE: This code is similar to that in the RainbowTestSuiteRunner,
-        # which is a lot like the code in 1.6, but this has changed
-        # significantly for 1.7
-        runner = unittest.TextTestRunner(
+        if not hasattr(self, "test_runner"):
+            # This was added as a clas attribute in Django 1.7
+            self.test_runner = unittest.TextTestRunner
+
+        runner = self.test_runner(
             verbosity=self.verbosity,
             failfast=self.failfast,
         )
