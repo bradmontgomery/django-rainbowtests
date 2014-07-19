@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import colors
+from django.utils import termcolors
 import random
 
 happy_messages = []
@@ -65,8 +65,8 @@ sad_messages.append(
 
 
 def random_happy():
-    return colors.green(random.choice(happy_messages))
+    return termcolors.colorize(random.choice(happy_messages), fg='green')
 
 
 def random_sad():
-    return colors.red(random.choice(sad_messages))
+    return termcolors.colorize(random.choice(sad_messages), fg='red')
