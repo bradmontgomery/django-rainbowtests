@@ -15,23 +15,23 @@ Or grab the development version from github::
 
     pip install -e git+git://github.com/bradmontgomery/django-rainbowtests.git#egg=django-rainbowtests
 
-Then, add one of the following settings. For the behavior of Django 1.6's
-``DiscoverRunner``, use the following::
+Then, add one of the following settings. For the ``DiscoverRunner`` behavior
+that was introduced with Django 1.6, use the following::
 
     TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
 
-If you want the *old-style* behavior, use::
+If you want the *old-style* behavior (Django 1.5 or older), use::
 
     TEST_RUNNER = 'rainbowtests.test.simple.RainbowTestSuiteRunner'
 
 Then run your tests!
 
 
-Python Compatibility
+Python/Django Compatibility
 --------------------
 
-This code *should* work with Python 2.7 and Python 3.4. If you find otherwise,
-please submit a bug report.
+This code *should* work with Django 1.7, Python 2.7, and Python 3.4. If you
+find otherwise, please open an Issue.
 
 License
 -------
