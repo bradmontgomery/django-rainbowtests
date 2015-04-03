@@ -42,10 +42,10 @@ This code is distributed under the terms of the MIT license. See the
 ``LICENSE`` file.
 
 
-.. |version| image:: http://img.shields.io/pypi/v/django-redis-metrics.svg?style=flat-square
+.. |version| image:: http://img.shields.io/pypi/v/django-rainbowtests.svg?style=flat-square
     :alt: Current Release
-    :target: https://pypi.python.org/pypi/django-redis-metrics/
+    :target: https://pypi.python.org/pypi/django-rainbowtests/
 
-.. |license| image:: http://img.shields.io/pypi/l/django-redis-metrics.svg?style=flat-square
+.. |license| image:: http://img.shields.io/pypi/l/django-rainbowtests.svg?style=flat-square
     :alt: License
-    :target: https://pypi.python.org/pypi/django-redis-metrics/
+    :target: https://pypi.python.org/pypi/django-rainbowtests/
