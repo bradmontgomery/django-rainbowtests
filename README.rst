@@ -1,6 +1,8 @@
 django-rainbowtests
 ===================
 
+|version| |license|
+
 This is a custom test runner for Django that gives you *really* colorful test
 output.
 
@@ -38,3 +40,12 @@ License
 
 This code is distributed under the terms of the MIT license. See the
 ``LICENSE`` file.
+
+
+.. |version| image:: http://img.shields.io/pypi/v/django-redis-metrics.svg?style=flat-square
+    :alt: Current Release
+    :target: https://pypi.python.org/pypi/django-redis-metrics/
+
+.. |license| image:: http://img.shields.io/pypi/l/django-redis-metrics.svg?style=flat-square
+    :alt: License
+    :target: https://pypi.python.org/pypi/django-redis-metrics/
