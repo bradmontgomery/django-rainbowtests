@@ -26,10 +26,21 @@ Then run your tests!
 
 
 Python/Django Compatibility
---------------------
+---------------------------
 
 This code *should* work with Django 1.4 - 1.8, Python 2.7 and Python 3.4. If you
 find otherwise, please open an Issue.
+
+
+Coverage
+--------
+
+As of version 0.3.0, there is (experimental) support for `coverage <http://nedbatchelder.com/code/coverage/>`_.
+
+Run your tests as normal (``python manage.py test <whatever>``), and if you
+have coverage installed, you should see a report when your tests complete.
+Make sure you have a ``.coveragerc`` file, though!
+
 
 License
 -------
