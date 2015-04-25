@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# NOTE: DjangoTestSuiteRunner was removed in Django 1.8
+# We should remove it at some point?
+
 import unittest
 from django.test.simple import DjangoTestSuiteRunner
 from rainbowtests import messages
