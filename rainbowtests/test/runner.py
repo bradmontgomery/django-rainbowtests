@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+
 from django.test.runner import DiscoverRunner
-from rainbowtests.test.core import RainbowTextTestResult
+from rainbowtests.test.core import RainbowTextTestResult, ColorfulOut
 from rainbowtests import messages
+
 try:
     import coverage
 except ImportError:
@@ -45,5 +47,5 @@ class RainbowDiscoverRunner(DiscoverRunner):
         )
         if coverage and self._cov:
             self._cov.stop()
-            self._cov.report()
+            self._cov.report(file=ColorfulOut())
         return result

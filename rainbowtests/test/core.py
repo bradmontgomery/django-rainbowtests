@@ -2,12 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import django
+import sys
 import unittest
 
 from inspect import getfile
 from os.path import dirname
 
 from rainbowtests import colors
+
+
+class ColorfulOut:
+    """Wrapper around sys.sdout to make it's output colorful"""
+
+    def write(self, arg, **kwargs):
+        return sys.stdout.write(colors.blue(arg), **kwargs)
 
 
 class RainbowTextTestResult(unittest.runner.TextTestResult):
