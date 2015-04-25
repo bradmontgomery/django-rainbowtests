@@ -9,13 +9,9 @@ output.
 How do I use this?
 ------------------
 
-First install with::
+Install the latest release with::
 
     pip install django-rainbowtests
-
-Or grab the development version from github::
-
-    pip install -e git+git://github.com/bradmontgomery/django-rainbowtests.git#egg=django-rainbowtests
 
 Then, add one of the following settings. For the ``DiscoverRunner`` behavior
 that was introduced with Django 1.6, use the following::
@@ -32,7 +28,7 @@ Then run your tests!
 Python/Django Compatibility
 --------------------
 
-This code *should* work with Django 1.7, Python 2.7, and Python 3.4. If you
+This code *should* work with Django 1.4 - 1.8, Python 2.7 and Python 3.4. If you
 find otherwise, please open an Issue.
 
 License
