@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import django
 import sys
 import unittest
-
 from inspect import getfile
 from os.path import dirname
+
+import django
 
 from rainbowtests import colors
 

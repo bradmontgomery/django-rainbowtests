@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import random
-from rainbowtests import colors
+from random import choice
 
+from rainbowtests import colors
 
 happy_messages = []
 sad_messages = []
@@ -54,8 +54,12 @@ sad_messages.append("""
 
 
 def random_happy():
-    return colors.green(random.choice(happy_messages))
+    return colors.green(choice(happy_messages))
 
 
 def random_sad():
-    return colors.red(random.choice(sad_messages))
+    return colors.red(choice(sad_messages))
+
+
+def random(success):
+    return random_happy() if success else random_sad()
