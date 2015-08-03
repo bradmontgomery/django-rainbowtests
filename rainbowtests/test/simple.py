@@ -5,7 +5,9 @@
 # We should remove it at some point?
 
 import unittest
+
 from django.test.simple import DjangoTestSuiteRunner
+
 from rainbowtests import messages
 from rainbowtests.test.core import RainbowTextTestResult
 

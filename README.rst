@@ -37,8 +37,13 @@ Coverage
 
 As of version 0.3.0, there is (experimental) support for `coverage <http://nedbatchelder.com/code/coverage/>`_.
 
-Run your tests as normal (``python manage.py test <whatever>``), and if you
+Use
+
+    TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverCoverageRunner'
+
+and run your tests as normal (``python manage.py test <whatever>``), and if you
 have coverage installed, you should see a report when your tests complete.
+You could also use ``coverage html`` and open ``htmlcov/index.html`` for a more fancy coverage report.
 Make sure you have a ``.coveragerc`` file, though!
 
 
