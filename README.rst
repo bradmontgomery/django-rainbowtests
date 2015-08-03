@@ -35,7 +35,8 @@ find otherwise, please open an Issue.
 Coverage
 --------
 
-As of version 0.3.0, there is (experimental) support for `coverage <http://nedbatchelder.com/code/coverage/>`_.
+As of version 0.3.0, there is (experimental) support for `coverage <http://nedbatchelder.com/code/coverage/>`_,
+and 0.4.0 cleaned it up by introducing a new test runner:
 
 Use
 
