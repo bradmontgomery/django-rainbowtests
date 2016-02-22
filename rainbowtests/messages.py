@@ -18,7 +18,7 @@ happy_messages.append("""
 
 happy_messages.append("""
 
-        (☞ﾟ∀ﾟ)☞ You da Man!
+        (☞ﾟ∀ﾟ)☞ You rock!
         All tests passed.
 
 """)
