@@ -13,12 +13,20 @@ Install the latest release with::
 
     pip install django-rainbowtests
 
-Then, add one of the following settings. For the ``DiscoverRunner`` behavior
-that was introduced with Django 1.6, use the following::
+*New in 0.5.0*: Add a settings for ``RAINBOWTESTS_HIGHLIGHT_PATH``. While
+running your tests, any lines in your tracebacks that match this path will be
+highlighted, making them easier to find and read. If you omit this setting,
+the default is to use the path to your django installation (which probably
+ends up highlighting more than you need or want).::
+
+    RAINBOWTESTS_HIGHLIGHT_PATH = '/path/to/my/project/'
+
+Django > 1.6: Set your test runner to the ``RainbowDiscoverRunner``::
 
     TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
 
-If you want the *old-style* behavior (Django 1.5 or older), use::
+Django < 1.5: Set your test runner to the ``RainbowTestSuiteRunner``. This was
+removed in django 1.8, so using this test runner on newer projects will fail::
 
     TEST_RUNNER = 'rainbowtests.test.simple.RainbowTestSuiteRunner'
 

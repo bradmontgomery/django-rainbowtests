@@ -7,6 +7,7 @@ from inspect import getfile
 from os.path import dirname
 
 import django
+from django.conf import settings
 
 from rainbowtests import colors
 
@@ -20,6 +21,18 @@ class ColorfulOut:
 
 class RainbowTextTestResult(unittest.runner.TextTestResult):
     """The color-enhanced Text output for a test run."""
+
+    def __init__(self, *args, **kwargs):
+        super(RainbowTextTestResult, self).__init__(*args, **kwargs)
+        self._set_highlight_path()
+
+    def _set_highlight_path(self):
+        """Determine what path to code we should highlight in a Traceback."""
+        try:
+            self.highlight_path = settings.RAINBOWTESTS_HIGHLIGHT_PATH
+        except AttributeError:
+            # Highlight packages installed alongside django
+            self.highlight_path = dirname(getfile(django))
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
@@ -54,9 +67,6 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
 
         """
 
-        # Find the path where django is installed.
-        django_path = dirname(getfile(django))
-
         for test, err in errors:
             self.stream.writeln(colors.red(self.separator1))
             out = "{0}: {1}".format(flavour, self.getDescription(test))
@@ -72,22 +82,35 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
             else:
                 first_line, last_line = ('', '')
 
-            # The traceback is organized into pairs; a path and a line of code,
-            # and the pair looks something like this:
+            # Python 2 tracebacks are organized into pairs of lines--a path and
+            # a line of code that looks something like this:
             #
             # >>> File "/path/to/module.py", line 123, in method_name
             # >>>     some_line_of_code
             #
-            # So, we'll group every two lines of the traceback, and highlight
-            # the pertinent parts
+            # Python 3 tracebacks, however, may start with several lines of
+            # output, e.g.:
+            #
+            # -----------------------------------------------------------------
+            # Traceback (most recent call last):
+            # File "/usr/lib/python/unittest/mock.py", line 1, in _whatever
+            #   return getattr(thing, comp)
+            # AttributeError: 'module' object has no attribute 'something'
+            #
+            # During handling of the above exception, another exception occurred
+            #
+            # -----------------------------------------------------------------
+            #
+            # So, rather than trying to group every two lines (like this code
+            # used to do), just inspect each line and if we watch a given
+            # path, highlight it and the next line of the traceback.
 
-            i = 0  # remember which line of the Traceback we're highlighting.
-            groups = zip(*[lines[x::2] for x in range(2)])
-            for path, line_of_code in groups:
-                if django_path not in path:
-                    lines[i] = colors.yellow(path)
-                    lines[i + 1] = colors.yellow(line_of_code)
-                i += 2
+            i = 0
+            while i < len(lines) - 1:
+                if self.highlight_path in lines[i]:
+                    lines[i] = colors.yellow(lines[i])
+                    lines[i + 1] = colors.yellow(lines[i + 1])
+                i += 1
 
             lines.insert(0, first_line)
             lines.append(last_line)
