@@ -18,6 +18,17 @@ except ImportError:
 class RainbowDiscoverRunner(DiscoverRunner):
     """Replacement for Django's DiscoverRunner"""
 
+    def __init__(self, *args, **kwargs):
+        super(RainbowDiscoverRunner, self).__init__(*args, **kwargs)
+        self._set_messages_display()
+
+    def _set_messages_display(self):
+        """Don't show messages if the user doesn't want them"""
+        try:
+            self.show_messages = settings.RAINBOWTESTS_SHOW_MESSAGES
+        except AttributeError:
+            self.show_messages = True
+
     def run_suite(self, suite, **kwargs):
         if not hasattr(self, "test_runner"):
             # This was added as a clas attribute in Django 1.7
@@ -30,7 +41,8 @@ class RainbowDiscoverRunner(DiscoverRunner):
         runner.resultclass = RainbowTextTestResult
         result = runner.run(suite)
 
-        runner.stream.writeln(messages.random(result.wasSuccessful()))
+        if self.show_messages:
+            runner.stream.writeln(messages.random(result.wasSuccessful()))
         return result
 
 
