@@ -21,6 +21,12 @@ ends up highlighting more than you need or want).::
 
     RAINBOWTESTS_HIGHLIGHT_PATH = '/path/to/my/project/'
 
+If the test output is too verbose and you just want a colorful version of
+the standard Django test output, set ``RAINBOWTESTS_SHOW_MESSAGES`` to
+``False``::
+
+    RAINBOWTESTS_SHOW_MESSAGES = False
+
 Django > 1.6: Set your test runner to the ``RainbowDiscoverRunner``::
 
     TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
