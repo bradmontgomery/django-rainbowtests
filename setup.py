@@ -1,3 +1,5 @@
+import io
+
 from setuptools import setup
 from rainbowtests import __version__
 
@@ -5,14 +7,15 @@ setup(
     name='django-rainbowtests',
     version=__version__,
     description="A colorful Django Test Runner.",
-    long_description=open('README.rst').read(),
+    long_description=io.open('README.md', encoding='utf-8').read(),
+    long_description_content_type='text/markdown',
     author='Brad Montgomery',
     author_email='brad@bradmontgomery.net',
     url='https://github.com/bradmontgomery/django-rainbowtests',
     license='MIT',
     packages=['rainbowtests'],
     include_package_data=True,
-    package_data={'': ['README.rst', 'LICENSE.txt']},
+    package_data={'': ['README.md', 'LICENSE.md']},
     zip_safe=False,
     install_requires=['django'],
     classifiers=[
