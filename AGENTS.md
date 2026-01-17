@@ -10,44 +10,62 @@ This repository is a small Django test-runner package intended to make test outp
 
 ## Local setup
 
-- Use a virtual environment.
-- Install in editable mode for development:
+This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
 
 ```bash
-python -m venv .venv
-. .venv/bin/activate
-python -m pip install -U pip
-python -m pip install -e .
-```
+# Clone the repository
+git clone https://github.com/bradmontgomery/django-rainbowtests.git
+cd django-rainbowtests
 
-- Install Django appropriate to the change you’re making (this project historically targeted older Django, but modernization work may change that).
+# Install all dependencies (dev + test)
+uv sync --group dev --group test
+```
 
 ## How to validate changes
 
-- Run any existing test/lint commands already present in the repo.
-- At minimum, ensure the code still imports and compiles:
+Run the test suite:
 
 ```bash
-python -m compileall rainbowtests setup.py
+uv run pytest
 ```
 
-- If you have a sample Django project handy, validate integration by setting:
+Run the linter:
+
+```bash
+uv run ruff check .
+```
+
+Ensure the code compiles:
+
+```bash
+uv run python -m compileall rainbowtests
+```
+
+If you have a sample Django project handy, validate integration by setting:
 
 ```python
 TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
 ```
 
-…and running `python manage.py test`.
+...and running `python manage.py test`.
 
 ## Code & style conventions
 
 - Do not do repo-wide reformatting unless explicitly requested.
 - Avoid adding new dependencies for minor changes.
 - Keep color/output behavior changes isolated to the existing modules (`rainbowtests/colors.py`, `rainbowtests/messages.py`, and `rainbowtests/test/*`) when possible.
+- Use `uv run ruff check --fix .` to fix lint issues.
+
+## Python/Django Compatibility
+
+- **Python**: 3.10, 3.11, 3.12, 3.13, 3.14
+- **Django**: 4.2, 5.2, 6.0
 
 ## Packaging / docs
 
-- Keep packaging metadata consistent with documentation files in the repo root (e.g., `README.md`, `LICENSE.md`).
+- Packaging is managed via `pyproject.toml` (PEP 517/621 with setuptools).
+- Version is defined in `rainbowtests/__init__.py` and read dynamically by setuptools.
+- Keep documentation consistent with packaging metadata.
 - Prefer Markdown for documentation.
 
 ## Safety & privacy

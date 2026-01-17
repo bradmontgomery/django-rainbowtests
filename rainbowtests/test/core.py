@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""Core test result and output classes for rainbowtests."""
 
 import sys
 import unittest
@@ -13,7 +12,7 @@ from rainbowtests import colors
 
 
 class ColorfulOut:
-    """Wrapper around sys.sdout to make it's output colorful"""
+    """Wrapper around sys.stdout to make its output colorful."""
 
     def write(self, arg, **kwargs):
         return sys.stdout.write(colors.blue(arg), **kwargs)
@@ -23,7 +22,7 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
     """The color-enhanced Text output for a test run."""
 
     def __init__(self, *args, **kwargs):
-        super(RainbowTextTestResult, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._set_highlight_path()
 
     def _set_highlight_path(self):

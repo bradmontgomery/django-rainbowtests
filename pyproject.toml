@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-rainbowtests"
+dynamic = ["version"]
+description = "A colorful Django Test Runner."
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Brad Montgomery", email = "brad@bradmontgomery.net" }
+]
+requires-python = ">=3.10,<3.15"
+dependencies = [
+    "django>=4.2,<7",
+    "rich",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/bradmontgomery/django-rainbowtests"
+Repository = "https://github.com/bradmontgomery/django-rainbowtests"
+
+[tool.setuptools.dynamic]
+version = { attr = "rainbowtests.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["rainbowtests*"]
+
+[dependency-groups]
+dev = ["ruff"]
+test = ["pytest", "pytest-cov", "coverage"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
