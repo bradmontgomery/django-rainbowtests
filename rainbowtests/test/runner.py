@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""Rainbow test runners for Django."""
 
 import unittest
 
@@ -16,10 +15,10 @@ except ImportError:
 
 
 class RainbowDiscoverRunner(DiscoverRunner):
-    """Replacement for Django's DiscoverRunner"""
+    """Replacement for Django's DiscoverRunner."""
 
     def __init__(self, *args, **kwargs):
-        super(RainbowDiscoverRunner, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._set_messages_display()
 
     def _set_messages_display(self):
@@ -47,19 +46,17 @@ class RainbowDiscoverRunner(DiscoverRunner):
 
 
 class RainbowDiscoverCoverageRunner(RainbowDiscoverRunner):
-    """Replacement for Django's DiscoverRunner with coverage support"""
+    """Replacement for Django's DiscoverRunner with coverage support."""
 
     def __init__(self, *args, **kwargs):
-        super(RainbowDiscoverCoverageRunner, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._cov = None
         if coverage:
-            self._cov = coverage.coverage()
+            self._cov = coverage.Coverage()
             self._cov.start()
 
     def suite_result(self, suite, result, **kwargs):
-        result = super(RainbowDiscoverCoverageRunner, self).suite_result(
-            suite, result, **kwargs
-        )
+        result = super().suite_result(suite, result, **kwargs)
         if coverage and self._cov:
             self._cov.stop()
             self._cov.report(file=ColorfulOut())

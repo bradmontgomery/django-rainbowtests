@@ -1,28 +1,23 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""Legacy test runner for Django < 1.8.
 
-# NOTE: DjangoTestSuiteRunner was removed in Django 1.8
-# We should remove it at some point?
+This module is deprecated and will raise an error if used.
+DjangoTestSuiteRunner was removed in Django 1.8.
 
-import unittest
-
-from django.test.simple import DjangoTestSuiteRunner
-
-from rainbowtests import messages
-from rainbowtests.test.core import RainbowTextTestResult
+Use rainbowtests.test.runner.RainbowDiscoverRunner instead.
+"""
 
 
-class RainbowTestSuiteRunner(DjangoTestSuiteRunner):
-    """Replacement Test Suite Runner for Django."""
-    def run_suite(self, suite, **kwargs):
+class RainbowTestSuiteRunner:
+    """Deprecated: This runner is not compatible with Django 1.8+.
 
-        runner = unittest.TextTestRunner(
-            verbosity=self.verbosity, failfast=self.failfast)
-        runner.resultclass = RainbowTextTestResult
-        result = runner.run(suite)
+    DjangoTestSuiteRunner was removed in Django 1.8. Please use
+    RainbowDiscoverRunner instead:
 
-        if result.wasSuccessful():
-            runner.stream.writeln(messages.random_happy())
-        else:
-            runner.stream.writeln(messages.random_sad())
-        return result
+        TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
+    """
+
+    def __init__(self, *args, **kwargs):
+        raise NotImplementedError(
+            "RainbowTestSuiteRunner is not compatible with Django 1.8+. "
+            "Please use 'rainbowtests.test.runner.RainbowDiscoverRunner' instead."
+        )
