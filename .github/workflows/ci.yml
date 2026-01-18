@@ -18,9 +18,6 @@ jobs:
           # Python 3.14 (prerelease) - only test with Django 5.2+
           - python-version: "3.14"
             django-version: "5.2"
-        exclude:
-          # Django 5.2 requires Python 3.10+
-          # (all our Python versions meet this requirement)
 
     steps:
       - uses: actions/checkout@v4
