@@ -50,7 +50,7 @@ jobs:
         run: uv run pytest -v
 
       - name: Check code compiles
-        run: uv run python -m compileall rainbowtests setup.py
+        run: uv run python -m compileall rainbowtests
 
   lint:
     runs-on: ubuntu-latest
