@@ -55,7 +55,7 @@ RAINBOWTESTS_SHOW_MESSAGES = False
 ## Python/Django Compatibility
 
 - **Python**: 3.10, 3.11, 3.12, 3.13, 3.14
-- **Django**: 4.2, 5.2, 6.0
+- **Django**: 4.2, 5.2
 
 ## Coverage
 
