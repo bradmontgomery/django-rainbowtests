@@ -93,7 +93,7 @@ jobs:
         run: uv pip install build
 
       - name: Build package
-        run: python -m build
+        run: uv run python -m build
 
       - name: Check package installs
         run: uv pip install dist/*.whl
