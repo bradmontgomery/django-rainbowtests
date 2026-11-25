@@ -1,6 +1,8 @@
 """Rainbow test runners for Django."""
 
-import unittest
+import sys
+from typing import TYPE_CHECKING, Any
+from unittest import TestResult, TestSuite, TextTestResult
 
 from django.conf import settings
 from django.test.runner import DiscoverRunner
@@ -8,56 +10,50 @@ from django.test.runner import DiscoverRunner
 from rainbowtests import messages
 from rainbowtests.test.core import ColorfulOut, RainbowTextTestResult
 
-try:
-    import coverage
-except ImportError:
-    coverage = None
+if TYPE_CHECKING:
+    from coverage import Coverage
 
 
 class RainbowDiscoverRunner(DiscoverRunner):
-    """Replacement for Django's DiscoverRunner."""
+    """Drop-in replacement for Django's DiscoverRunner with colorful output."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        self._set_messages_display()
+        self.show_messages: bool = getattr(settings, "RAINBOWTESTS_SHOW_MESSAGES", True)
 
-    def _set_messages_display(self):
-        """Don't show messages if the user doesn't want them"""
-        try:
-            self.show_messages = settings.RAINBOWTESTS_SHOW_MESSAGES
-        except AttributeError:
-            self.show_messages = True
+    def get_resultclass(self) -> type[TextTestResult]:
+        # Django returns a result class only for --pdb / --debug-sql; let those win.
+        return super().get_resultclass() or RainbowTextTestResult
 
-    def run_suite(self, suite, **kwargs):
-        if not hasattr(self, "test_runner"):
-            # This was added as a clas attribute in Django 1.7
-            self.test_runner = unittest.TextTestRunner
-
-        runner = self.test_runner(
-            verbosity=self.verbosity,
-            failfast=self.failfast,
-        )
-        runner.resultclass = RainbowTextTestResult
-        result = runner.run(suite)
-
+    def run_suite(self, suite: TestSuite, **kwargs: Any) -> TestResult:
+        result = super().run_suite(suite, **kwargs)
         if self.show_messages:
-            runner.stream.writeln(messages.random(result.wasSuccessful()))
+            # unittest's TextTestRunner writes to stderr by default.
+            sys.stderr.write(messages.random(result.wasSuccessful()) + "\n")
         return result
+
+
+def _start_coverage() -> "Coverage | None":
+    """Start and return a ``coverage.Coverage`` object, or None if not installed."""
+    try:
+        import coverage
+    except ImportError:
+        return None
+    cov = coverage.Coverage()
+    cov.start()
+    return cov
 
 
 class RainbowDiscoverCoverageRunner(RainbowDiscoverRunner):
-    """Replacement for Django's DiscoverRunner with coverage support."""
+    """RainbowDiscoverRunner that also prints a coverage report, if coverage is installed."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        self._cov = None
-        if coverage:
-            self._cov = coverage.Coverage()
-            self._cov.start()
+        self._cov = _start_coverage()
 
-    def suite_result(self, suite, result, **kwargs):
-        result = super().suite_result(suite, result, **kwargs)
-        if coverage and self._cov:
+    def suite_result(self, suite: TestSuite, result: TestResult, **kwargs: Any) -> int:
+        failures = super().suite_result(suite, result, **kwargs)
+        if self._cov is not None:
             self._cov.stop()
             self._cov.report(file=ColorfulOut())
-        return result
+        return failures
