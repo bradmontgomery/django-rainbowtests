@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.0 (unreleased)
+## 1.0.0 (unreleased)
 
 ### ⚠️ Breaking
 - Dropped Python 3.10 and Django 4.2.

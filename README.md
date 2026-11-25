@@ -99,7 +99,7 @@ make check      # ruff lint + format check, ty type check, tests
 ### Releasing
 
 1. Bump `__version__` in `rainbowtests/__init__.py` and update `CHANGELOG.md`.
-2. Tag and push: `git tag 0.8.0 && git push origin 0.8.0`.
+2. Tag and push: `git tag 1.0.0 && git push origin 1.0.0`.
 3. The `publish` workflow runs the full CI suite, then publishes to PyPI with trusted publishing.
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
