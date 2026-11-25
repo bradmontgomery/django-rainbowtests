@@ -46,7 +46,7 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
         if self.showAll:
             self.stream.writeln(colors.red("ERROR"))
         elif self.dots:
-            self.stream.write(colors.red('E'))
+            self.stream.write(colors.red("E"))
             self.stream.flush()
 
     def addFailure(self, test, err):
@@ -54,7 +54,7 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
         if self.showAll:
             self.stream.writeln(colors.red("FAIL"))
         elif self.dots:
-            self.stream.write(colors.red('F'))
+            self.stream.write(colors.red("F"))
             self.stream.flush()
 
     def printErrorList(self, flavour, errors):
@@ -79,7 +79,7 @@ class RainbowTextTestResult(unittest.runner.TextTestResult):
                 first_line = colors.cyan(lines.pop(0))  # Traceback header
                 last_line = colors.cyan(lines.pop(-1))  # The Exception
             else:
-                first_line, last_line = ('', '')
+                first_line, last_line = ("", "")
 
             # Python 2 tracebacks are organized into pairs of lines--a path and
             # a line of code that looks something like this:

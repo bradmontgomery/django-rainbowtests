@@ -22,6 +22,7 @@ class TestRainbowTextTestResult:
     def _make_result(self, verbosity=1):
         """Create a RainbowTextTestResult instance for testing."""
         stream = io.StringIO()
+
         # Create a wrapper that has writeln method
         class StreamWrapper:
             def __init__(self, stream):
@@ -89,6 +90,7 @@ class TestRainbowTextTestResult:
             raise ValueError("test error")
         except ValueError:
             import sys
+
             result.addError(test, sys.exc_info())
 
         output = stream.getvalue()
@@ -109,6 +111,7 @@ class TestRainbowTextTestResult:
             raise AssertionError("test failure")
         except AssertionError:
             import sys
+
             result.addFailure(test, sys.exc_info())
 
         output = stream.getvalue()

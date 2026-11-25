@@ -12,6 +12,7 @@ class TestRainbowDiscoverRunner:
     def test_runner_inherits_from_discover_runner(self):
         """Test that RainbowDiscoverRunner inherits from DiscoverRunner."""
         from django.test.runner import DiscoverRunner
+
         assert issubclass(RainbowDiscoverRunner, DiscoverRunner)
 
     def test_runner_can_be_instantiated(self):
