@@ -2,98 +2,72 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
+    branches: [main]
+  workflow_call:
 
 jobs:
   test:
+    name: py${{ matrix.python }} / django ${{ matrix.django }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
-        django-version: ["4.2", "5.2"]
         include:
-          # Python 3.14 (prerelease) - only test with Django 5.2+
-          - python-version: "3.14"
-            django-version: "5.2"
-
+          - { django: "5.2", python: "3.11" }
+          - { django: "5.2", python: "3.12" }
+          - { django: "5.2", python: "3.13" }
+          - { django: "5.2", python: "3.14" }
+          - { django: "6.0", python: "3.12" }
+          - { django: "6.0", python: "3.13" }
+          - { django: "6.0", python: "3.14" }
+          - { django: "6.1", python: "3.12" }
+          - { django: "6.1", python: "3.13" }
+          - { django: "6.1", python: "3.14" }
+          - { django: "6.1", python: "3.15" }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
+      - uses: astral-sh/setup-uv@v10
         with:
-          version: "latest"
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          allow-prereleases: true
-
-      - name: Create virtual environment with uv
-        run: uv venv
+          python-version: ${{ matrix.python }}
 
       - name: Install dependencies
         run: |
-          uv sync --group test
-          uv pip install "django~=${{ matrix.django-version }}.0"
+          uv sync --locked --group test
+          uv pip install "django~=${{ matrix.django }}.0"
 
-      - name: Run tests
-        run: uv run pytest -v
+      # --no-sync keeps uv from reverting Django to the locked version.
+      - name: Show versions
+        run: uv run --no-sync python -c "import sys, django; print(sys.version); print('Django', django.get_version())"
 
-      - name: Check code compiles
-        run: uv run python -m compileall rainbowtests
+      - name: Run tests (100% coverage required)
+        run: uv run --no-sync pytest
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
         with:
-          version: "latest"
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Create virtual environment with uv
-        run: uv venv
-
-      - name: Install dependencies
-        run: uv sync --group dev
-
-      - name: Run ruff check
-        run: uv run ruff check .
+          python-version: "3.14"
+      - run: uv sync --locked --all-groups
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run ty check
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
         with:
-          version: "latest"
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+          python-version: "3.14"
+      - run: uv build
+      - name: Check the wheel installs and imports
+        run: uv run --isolated --no-project --with dist/*.whl python -c "import rainbowtests.test.runner"
+      - uses: actions/upload-artifact@v7
         with:
-          python-version: "3.12"
-
-      - name: Create virtual environment with uv
-        run: uv venv
-
-      - name: Install build tools
-        run: uv pip install build
-
-      - name: Build package
-        run: uv run python -m build
-
-      - name: Check package installs
-        run: uv pip install dist/*.whl
+          name: dist
+          path: dist/

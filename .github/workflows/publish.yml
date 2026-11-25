@@ -2,35 +2,21 @@ name: Publish to PyPI
 
 on:
   push:
-    tags:
-      - '*'
+    tags: ["v*.*.*"]
 
 jobs:
-  build:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: ci
     runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # PyPI trusted publishing (OIDC); no API token needed
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
+      - uses: actions/download-artifact@v8
         with:
-          version: "latest"
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Create virtual environment with uv
-        run: uv venv
-
-      - name: Install build tools
-        run: uv pip install build
-
-      - name: Build package
-        run: uv run python -m build
-
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
