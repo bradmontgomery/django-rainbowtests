@@ -24,7 +24,7 @@ make check     # everything CI runs: ruff lint, ruff format --check, ty, pytest
 To validate integration, use a sample Django project with:
 
 ```python
-TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
+TEST_RUNNER = "rainbowtests.test.runner.RainbowDiscoverRunner"
 ```
 
 ...and run `python manage.py test` (try `-v 2`, `--buffer`, `--debug-sql`).
@@ -50,7 +50,7 @@ Keep this list in sync with `README.md`, `pyproject.toml` classifiers, and the C
 - Packaging is managed via `pyproject.toml` (PEP 517/621 with setuptools).
 - Version is defined in `rainbowtests/__init__.py` and read dynamically by setuptools.
 - Record user-facing changes in `CHANGELOG.md`.
-- Releases publish from `v*.*.*` tags via PyPI trusted publishing, after CI passes.
+- Releases publish from bare semver tags (e.g. `0.8.0`) via PyPI trusted publishing, after CI passes.
 - Keep documentation consistent with packaging metadata.
 - Prefer Markdown for documentation.
 

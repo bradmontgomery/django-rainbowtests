@@ -13,7 +13,6 @@
 
 ### 🐛 Fixed
 - `RainbowDiscoverRunner` now honors Django's `--buffer`, `--durations`, `--pdb` and `--debug-sql` flags, and logs the `--shuffle` seed. Previously these were ignored.
-- The happy/sad message is now written to stderr, alongside unittest's output.
 
 ### 🔧 Internal
 - 100% line + branch test coverage, enforced in CI across every supported Django/Python pair.

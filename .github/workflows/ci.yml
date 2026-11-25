@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv sync --locked --group test
-          uv pip install "django~=${{ matrix.django }}.0"
+          uv pip install --upgrade "django~=${{ matrix.django }}.0"
 
       # --no-sync keeps uv from reverting Django to the locked version.
       - name: Show versions

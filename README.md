@@ -25,7 +25,7 @@ uv add django-rainbowtests
 Set your test runner in Django settings:
 
 ```python
-TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
+TEST_RUNNER = "rainbowtests.test.runner.RainbowDiscoverRunner"
 ```
 
 Then run your tests as usual:
@@ -44,7 +44,7 @@ All of Django's test flags still work: `--buffer`, `--durations`, `--shuffle`, `
 While running your tests, any lines in your tracebacks that match this path will be highlighted, making them easier to find and read. If you omit this setting, the default is to use the path to your Django installation.
 
 ```python
-RAINBOWTESTS_HIGHLIGHT_PATH = '/path/to/my/project/'
+RAINBOWTESTS_HIGHLIGHT_PATH = "/path/to/my/project/"
 ```
 
 ### RAINBOWTESTS_SHOW_MESSAGES
@@ -70,7 +70,7 @@ Every combination above is tested in CI.
 There is support for [coverage](http://nedbatchelder.com/code/coverage/) via a custom test runner:
 
 ```python
-TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverCoverageRunner'
+TEST_RUNNER = "rainbowtests.test.runner.RainbowDiscoverCoverageRunner"
 ```
 
 Run your tests as normal (`python manage.py test`), and if you have coverage installed, you should see a report when your tests complete.
@@ -99,7 +99,7 @@ make check      # ruff lint + format check, ty type check, tests
 ### Releasing
 
 1. Bump `__version__` in `rainbowtests/__init__.py` and update `CHANGELOG.md`.
-2. Tag and push: `git tag v0.8.0 && git push origin v0.8.0`.
+2. Tag and push: `git tag 0.8.0 && git push origin 0.8.0`.
 3. The `publish` workflow runs the full CI suite, then publishes to PyPI with trusted publishing.
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
