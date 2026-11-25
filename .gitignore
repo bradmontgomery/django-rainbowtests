@@ -1,24 +1,17 @@
 *.py[cod]
+__pycache__/
 
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
+# Environments
+.venv/
 
-# Installer logs
-pip-log.txt
+# Packaging
+*.egg-info/
+build/
+dist/
 
-# Unit test / coverage reports
+# Tooling caches & reports
 .coverage
-.tox
-nosetests.xml
+coverage.xml
+htmlcov/
+.pytest_cache/
+.ruff_cache/

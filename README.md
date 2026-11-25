@@ -1,7 +1,7 @@
 # django-rainbowtests
 
-[![PyPI version](http://img.shields.io/pypi/v/django-rainbowtests.svg?style=flat-square)](https://pypi.python.org/pypi/django-rainbowtests/)
-[![License](http://img.shields.io/pypi/l/django-rainbowtests.svg?style=flat-square)](https://pypi.python.org/pypi/django-rainbowtests/)
+[![PyPI version](https://img.shields.io/pypi/v/django-rainbowtests.svg?style=flat-square)](https://pypi.org/project/django-rainbowtests/)
+[![License](https://img.shields.io/pypi/l/django-rainbowtests.svg?style=flat-square)](https://pypi.org/project/django-rainbowtests/)
 [![CI](https://github.com/bradmontgomery/django-rainbowtests/actions/workflows/ci.yml/badge.svg)](https://github.com/bradmontgomery/django-rainbowtests/actions/workflows/ci.yml)
 
 This is a custom test runner for Django that gives you *really* colorful test output.
@@ -34,6 +34,9 @@ Then run your tests as usual:
 python manage.py test
 ```
 
+All of Django's test flags still work: `--buffer`, `--durations`, `--shuffle`, `--failfast`, and so on.
+`--pdb` and `--debug-sql` use Django's own result classes, so their output is not colorized.
+
 ## Settings
 
 ### RAINBOWTESTS_HIGHLIGHT_PATH
@@ -54,8 +57,13 @@ RAINBOWTESTS_SHOW_MESSAGES = False
 
 ## Python/Django Compatibility
 
-- **Python**: 3.10, 3.11, 3.12, 3.13, 3.14
-- **Django**: 4.2, 5.2
+| Django | Python |
+|---|---|
+| 5.2 LTS | 3.11, 3.12, 3.13, 3.14 |
+| 6.0 | 3.12, 3.13, 3.14 |
+| 6.1 | 3.12, 3.13, 3.14, 3.15 |
+
+Every combination above is tested in CI.
 
 ## Coverage
 
@@ -71,22 +79,30 @@ Run your tests as normal (`python manage.py test`), and if you have coverage ins
 
 ## Development
 
-This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
+This project uses [uv](https://github.com/astral-sh/uv) and a `Makefile`.
 
 ```bash
-# Clone the repository
 git clone https://github.com/bradmontgomery/django-rainbowtests.git
 cd django-rainbowtests
-
-# Install dependencies
-uv sync --group dev --group test
-
-# Run tests
-uv run pytest
-
-# Run linter
-uv run ruff check .
+make install    # uv sync --locked --all-groups
+make check      # ruff lint + format check, ty type check, tests
 ```
+
+| Target | What it does |
+|---|---|
+| `make test` | pytest; **fails below 100% line + branch coverage** |
+| `make lint` | `ruff check` + `ruff format --check` |
+| `make format` | auto-fix lint issues and format |
+| `make typecheck` | [ty](https://github.com/astral-sh/ty) type check |
+| `make build` | build sdist + wheel into `dist/` |
+
+### Releasing
+
+1. Bump `__version__` in `rainbowtests/__init__.py` and update `CHANGELOG.md`.
+2. Tag and push: `git tag v0.8.0 && git push origin v0.8.0`.
+3. The `publish` workflow runs the full CI suite, then publishes to PyPI with trusted publishing.
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 

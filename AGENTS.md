@@ -8,63 +8,49 @@ This repository is a small Django test-runner package intended to make test outp
 - Preserve existing behavior unless the task explicitly requires a behavior change.
 - Keep the library usable as a drop-in Django `TEST_RUNNER`.
 
-## Local setup
+## Local setup & validation
 
-This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
-
-```bash
-# Clone the repository
-git clone https://github.com/bradmontgomery/django-rainbowtests.git
-cd django-rainbowtests
-
-# Install all dependencies (dev + test)
-uv sync --group dev --group test
-```
-
-## How to validate changes
-
-Run the test suite:
+This project uses [uv](https://github.com/astral-sh/uv) and a `Makefile`.
 
 ```bash
-uv run pytest
+make install   # uv sync --locked --all-groups
+make check     # everything CI runs: ruff lint, ruff format --check, ty, pytest
 ```
 
-Run the linter:
+- Tests must keep **100% line + branch coverage** (`--cov-fail-under=100` in `pyproject.toml`).
+- `ty` must pass with no blanket ignores.
+- Code is formatted with `ruff format`; run `make format` before committing.
 
-```bash
-uv run ruff check .
-```
-
-Ensure the code compiles:
-
-```bash
-uv run python -m compileall rainbowtests
-```
-
-If you have a sample Django project handy, validate integration by setting:
+To validate integration, use a sample Django project with:
 
 ```python
 TEST_RUNNER = 'rainbowtests.test.runner.RainbowDiscoverRunner'
 ```
 
-...and running `python manage.py test`.
+...and run `python manage.py test` (try `-v 2`, `--buffer`, `--debug-sql`).
 
 ## Code & style conventions
 
-- Do not do repo-wide reformatting unless explicitly requested.
 - Avoid adding new dependencies for minor changes.
 - Keep color/output behavior changes isolated to the existing modules (`rainbowtests/colors.py`, `rainbowtests/messages.py`, and `rainbowtests/test/*`) when possible.
-- Use `uv run ruff check --fix .` to fix lint issues.
+- Use `make format` to fix lint and formatting issues.
+- Add type hints to new code.
+- Keep `RainbowDiscoverRunner` delegating to Django's `run_suite`/`get_test_runner_kwargs` so Django flags keep working.
 
 ## Python/Django Compatibility
 
-- **Python**: 3.10, 3.11, 3.12, 3.13, 3.14
-- **Django**: 4.2, 5.2
+- **Django 5.2**: Python 3.11–3.14
+- **Django 6.0**: Python 3.12–3.14
+- **Django 6.1**: Python 3.12–3.15
+
+Keep this list in sync with `README.md`, `pyproject.toml` classifiers, and the CI matrix.
 
 ## Packaging / docs
 
 - Packaging is managed via `pyproject.toml` (PEP 517/621 with setuptools).
 - Version is defined in `rainbowtests/__init__.py` and read dynamically by setuptools.
+- Record user-facing changes in `CHANGELOG.md`.
+- Releases publish from `v*.*.*` tags via PyPI trusted publishing, after CI passes.
 - Keep documentation consistent with packaging metadata.
 - Prefer Markdown for documentation.
 

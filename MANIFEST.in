@@ -1,2 +1,1 @@
-include README.md LICENSE.md
-recursive-include rainbowtests *.py
+include README.md LICENSE.md CHANGELOG.md AUTHORS.md
