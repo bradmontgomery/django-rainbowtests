@@ -1,7 +1,7 @@
 # django-rainbowtests
 
-[![PyPI version](https://img.shields.io/pypi/v/django-rainbowtests.svg?style=flat-square)](https://pypi.org/project/django-rainbowtests/)
-[![License](https://img.shields.io/pypi/l/django-rainbowtests.svg?style=flat-square)](https://pypi.org/project/django-rainbowtests/)
+[![PyPI version](https://img.shields.io/pypi/v/django-rainbowtests?style=flat-square)](https://pypi.org/project/django-rainbowtests/)
+[![License](https://img.shields.io/pypi/l/django-rainbowtests?style=flat-square)](https://pypi.org/project/django-rainbowtests/)
 [![CI](https://github.com/bradmontgomery/django-rainbowtests/actions/workflows/ci.yml/badge.svg)](https://github.com/bradmontgomery/django-rainbowtests/actions/workflows/ci.yml)
 
 This is a custom test runner for Django that gives you *really* colorful test output.
@@ -103,6 +103,10 @@ make check      # ruff lint + format check, ty type check, tests
 3. The `publish` workflow runs the full CI suite, then publishes to PyPI with trusted publishing.
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/chart?repos=bradmontgomery/django-rainbowtests&type=date&legend=top-left)](https://www.star-history.com/?repos=bradmontgomery%2Fdjango-rainbowtests&type=date&legend=top-left)
 
 ## License
 
